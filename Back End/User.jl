@@ -1,9 +1,10 @@
 #This class should define what a general user is
 #Properties of a user: Id, Username, Password, Profile Picture, Cards Owned, Deck, Wins, Loses, Rank, Level, User Settings, Friends list
 
-import Database
-import User
-import Cards
+include("Card.jl")
+include("Deck.jl")
+include("UserRole.jl")
+
 
 struct User
     userId::Int
@@ -16,5 +17,5 @@ struct User
     userRole::UserRole[]
     deckOwned::Deck[]
     cardOwned::Card[]
-    previousMatches::Match[]
+    #previousMatches::Match[]
 end

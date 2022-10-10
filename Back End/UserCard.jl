@@ -1,5 +1,5 @@
-import User
-import Cards
+
+include("Card.jl")
 
 struct UserCard
     User::User

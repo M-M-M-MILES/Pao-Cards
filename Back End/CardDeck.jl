@@ -1,4 +1,4 @@
-import Cards
+include("Card.jl")
 
 struct CardDeck
     deck::Deck 

@@ -1,5 +1,4 @@
-import Databse
-import User
+include("User.jl")
 
 struct UserRole
     User::User

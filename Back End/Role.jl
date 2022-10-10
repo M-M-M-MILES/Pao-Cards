@@ -1,5 +1,4 @@
-import Database
-import User
+include("UserRole.jl")
 
 struct Role
     Users[]::UserRole[]

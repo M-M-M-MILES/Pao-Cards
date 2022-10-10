@@ -1,5 +1,6 @@
 #General Class for cards. Type specific attributes will be defined elsewhere 
-include(raw"\Pao-Cards\Pao-Cards\Back End\Cards")
+include("CardEffect.jl")
+include("CardType.jl")
 
 struct Card
     cardId::Int

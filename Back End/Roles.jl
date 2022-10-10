@@ -1,5 +1,4 @@
-import Database
-import User
+include("User.jl")
 
 struct Roles
     Admin::String
