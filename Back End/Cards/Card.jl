@@ -1,1 +1,0 @@
-#General Class for cards. Type specific attributes will be defined elsewhere 
