@@ -26,9 +26,9 @@ function Scene.update(dt)
 
     suit.layout:row(200,20)
 
-    if suit.Button("Land", suit.layout:row(200,50)).hit then
-        SM.load("LandPage")
-    end
+   -- if suit.Button("Land", suit.layout:row(200,50)).hit then
+   --     SM.load("LandPage")
+    --end
 
     suit.layout:row(200,20)
 
