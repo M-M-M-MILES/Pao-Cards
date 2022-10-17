@@ -1,5 +1,4 @@
 
-
 local suit = require 'suit'
 
 local Scene = {}
@@ -116,7 +115,7 @@ function Scene.update(dt)
         print(input5.text)
         print(input6.text)
 
-        --cardCreator.createCard(input1, "Monster", input4)
+       -- cardCreator.Card_Connect:createCard(input1, "Monster", input3)
         
     end
 end
