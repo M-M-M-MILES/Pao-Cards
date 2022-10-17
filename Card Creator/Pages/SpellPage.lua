@@ -1,3 +1,5 @@
+local cardCreator = require 'Card_Connect.jl'
+
 local suit = require 'suit'
 
 local Scene = {}
@@ -97,6 +99,9 @@ function Scene.update(dt)
         print(input3.text)
         print(input4.text)
         print(input5.text)
+
+        cardCreator.createCard(input1, "Spell", input4)
+
     end
 end
 

@@ -1,3 +1,5 @@
+local cardCreator = require 'Card_Connect.jl'
+
 local suit = require 'suit'
 
 local Scene = {}
@@ -34,18 +36,18 @@ function Scene.update(dt)
 
     suit.layout:row(200,25)
 
-    suit.Label("What is the description?", {align = "left"}, suit.layout:row(200,14))
+  --  suit.Label("What is the description?", {align = "left"}, suit.layout:row(200,14))
 
-    suit.layout:row(200,0)
+--    suit.layout:row(200,0)
 
-    if suit.Input(input2, suit.layout:row(200,30)).hovered then
+   -- if suit.Input(input2, suit.layout:row(200,30)).hovered then
 
-        suit.Label(input2.text, {align = "left"}, suit.layout:col())
+   --     suit.Label(input2.text, {align = "left"}, suit.layout:col())
     
-    end
-    suit.layout:reset(295,188)
+  --  end
+   -- suit.layout:reset(295,188)
 
-    suit.layout:row(200,25)
+  --  suit.layout:row(200,25)
 
     suit.Label("What is the health?", {align = "left"}, suit.layout:row(200,14))
 
@@ -113,6 +115,9 @@ function Scene.update(dt)
         print(input4.text)
         print(input5.text)
         print(input6.text)
+
+        cardCreator.createCard(input1, "Monster", input4)
+        
     end
 end
 
