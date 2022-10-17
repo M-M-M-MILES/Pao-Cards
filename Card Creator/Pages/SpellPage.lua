@@ -71,25 +71,25 @@ function Scene.update(dt)
 
     suit.layout:row(200,25)
 
-    suit.Label("What is the card ID?", {align = "left"}, suit.layout:row(200,14))
+    --suit.Label("What is the card ID?", {align = "left"}, suit.layout:row(200,14))
 
-    suit.layout:row(200,0)
+   -- suit.layout:row(200,0)
 
-    if suit.Input(input5, suit.layout:row(200,30)).hovered then
+   -- if suit.Input(input5, suit.layout:row(200,30)).hovered then
 
-        suit.Label(input5.text, {align = "left"}, suit.layout:col())
+   --     suit.Label(input5.text, {align = "left"}, suit.layout:col())
 
-    end
-    suit.layout:reset(295,395)
+   -- end
+  --  suit.layout:reset(295,395)
 
-    suit.layout:row(200,25)
+  --  suit.layout:row(200,25)
 
-    if suit.Button("Back", suit.layout:row(70,50)).hit then
-        SM.load("MenuPage")
-        SM.unload("SpellPage")
-    end
+  --  if suit.Button("Back", suit.layout:row(70,50)).hit then
+   --     SM.load("MenuPage")
+  --      SM.unload("SpellPage")
+   -- end
 
-    suit.layout:col(60,50)
+   -- suit.layout:col(60,50)
     
     if suit.Button("Submit", suit.layout:col(70,50)).hit then
         print(input1.text)
