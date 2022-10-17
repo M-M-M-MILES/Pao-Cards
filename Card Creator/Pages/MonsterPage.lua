@@ -1,4 +1,4 @@
-local cardCreator = require 'Card_Connect.jl'
+
 
 local suit = require 'suit'
 
@@ -116,7 +116,7 @@ function Scene.update(dt)
         print(input5.text)
         print(input6.text)
 
-        cardCreator.createCard(input1, "Monster", input4)
+        --cardCreator.createCard(input1, "Monster", input4)
         
     end
 end

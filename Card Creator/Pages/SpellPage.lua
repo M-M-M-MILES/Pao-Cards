@@ -1,4 +1,3 @@
-local cardCreator = require 'Card_Connect.jl'
 
 local suit = require 'suit'
 
@@ -92,6 +91,14 @@ function Scene.update(dt)
    -- end
 
    -- suit.layout:col(60,50)
+
+   
+    if suit.Button("Back", suit.layout:row(70,50)).hit then
+        SM.load("MenuPage")
+        SM.unload("MonsterPage")
+    end
+
+    suit.layout:col(60,50)
     
     if suit.Button("Submit", suit.layout:col(70,50)).hit then
         print(input1.text)
@@ -100,7 +107,7 @@ function Scene.update(dt)
         print(input4.text)
         print(input5.text)
 
-        cardCreator.createCard(input1, "Spell", input4)
+        --cardCreator.createCard(input1, "Spell", input4)
 
     end
 end
