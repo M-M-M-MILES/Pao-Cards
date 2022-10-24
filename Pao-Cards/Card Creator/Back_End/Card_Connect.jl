@@ -5,6 +5,7 @@ using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Ge
 
 include("Models/User.jl")
 include("Models/Card.jl")
+include("database.jl")
 
 #import .User_mod
 #import .Card_mod
@@ -27,14 +28,21 @@ end
 
 function createCard(cardName, CardType, cardEffect)
     #need to add troubleshooting (checking if names match, etc)
-    println(cardName)
-    println(CardType)
-    println(cardEffect)
-    # SQLite.execute(db, "INSTER INTO Cards (cardName) VALUES ('$cardName')")
-    # SQLite.execute(db, "INSTER INTO Cards (CardType) VALUES ('$CardType')")
-    # SQLite.execute(db, "INSTER INTO Cards (cardEffect) VALUES ('$cardEffect')")
-    #will need to add rarity at some point. Probably whenever we have the 'gacha' system done 
-end
+   # println(cardName)
+   # println(CardType)
+   # println(cardEffect)
+
+    try 
+        #"INSERT INTO 'Table Name' (column(s) being entered into separated by commas if multiple) VALUES (Values entered separated by commas if multiple)
+        #'$Name' -> to call a value being passed through a function
+
+        SQLite.execute(db, "INSERT INTO Cards (cardName, CardType, cardEffect) VALUES 
+        ('$cardName', '$CardType', '$cardEffect')")
+        catch
+            println("Error when creating card")
+    end
+    #will need to add rarity and other values meant to be associated with cards at some point. Probably whenever we have the 'gacha' system done 
+end 
 
 route("/createCard", method = POST) do
     createCard(jsonpayload()["cardName"], jsonpayload()["CardType"], jsonpayload()["cardEffect"])
