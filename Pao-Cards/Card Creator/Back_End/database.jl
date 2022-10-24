@@ -12,7 +12,8 @@ SQLite.execute(db, "CREATE TABLE IF NOT EXISTS Users
     101
 
 SQLite.execute(db, "CREATE TABLE IF NOT EXISTS Cards
-    (cardId INTEGER PRIMARY KEY, cardName TEXT, CardType TEXT, cardEffect TEXT)") 
+    (cardId INTEGER PRIMARY KEY, cardName TEXT, CardType TEXT, cardEffect TEXT, cardHealth INTEGER,
+    cardAttack INTEGER, cardImage TEXT, cardRarity TEXT)") 
     101    
 
 #Relating users to cards
