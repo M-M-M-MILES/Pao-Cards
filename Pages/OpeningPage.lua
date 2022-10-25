@@ -9,25 +9,19 @@ end
 function Scene.update(dt)
     suit.layout:reset(295,50)
 
-    suit.Label("What type of card do you wish to create?", {align = "center"}, suit.layout:row(200,50))
+    suit.Label("Are you ready to play?", {align = "center" }, suit.layout:row(200,50))
 
     suit.layout:row(200,25)
 
-    if suit.Button("Monster", suit.layout:row(200,50)).hit then
-        SM.load("MonsterPage")
+    if suit.Button("Start a match", suit.layout:row(200,50)).hit then
+        SM.load("ListenPage")
     end
 
     suit.layout:row(200,20)
 
-    if suit.Button("Spell", suit.layout:row(200,50)).hit then
-        SM.load("SpellPage")
+    if suit.Button("Connect to a friend", suit.layout:row(200,50)).hit then
+        SM.load("ConnectPage")
     end
-
-    suit.layout:row(200,20)
-
-   -- if suit.Button("Land", suit.layout:row(200,50)).hit then
-   --     SM.load("LandPage")
-    --end
 
     suit.layout:row(200,20)
 
@@ -37,7 +31,7 @@ function Scene.update(dt)
 end
 
 function Scene.draw()
-    love.graphics.setBackgroundColor(0, 0.6, 0.6, 1.0)
+    love.graphics.setBackgroundColor(103/255, 153/255, 199/255, 1.0)
     suit.draw()
 end
 
