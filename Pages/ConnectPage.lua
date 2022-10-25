@@ -1,6 +1,9 @@
 local IP = {text = ""}
 
 local suit = require 'suit'
+local json = require "dkjson"
+local http = require("socket.http")
+
 
 local Scene = {}
 
@@ -13,12 +16,23 @@ function Scene.update(dt)
 
     suit.Label("Input friends IP", {align = "center"}, suit.layout:row(200,50))
 
-    suit.Input(IP, suit.layout:row(200,30))
+    suit.Input(IP, suit.layout:row(200,30)) 
 
     suit.layout:row(200,20)
 
     if suit.Button("Connect", suit.layout:row(200,50)).hit then
-        --run julia script
+        local request_body = { IPAddress = IP.text} --the json body
+        request_body = json.encode(request_body)
+        http.request {
+            method = "POST",
+            url = "http://127.0.0.1:8002/connect",
+            source = ltn12.source.string(request_body),
+            headers = {
+                ["content-type"] = "application/json",
+                ["content-length"] = string.len(request_body)
+            },
+            sink = ltn12.sink.table(response_body)
+        }
     end
 
     suit.layout:row(200,20)
