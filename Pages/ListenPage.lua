@@ -6,7 +6,7 @@ local Scene = {}
 function Scene.load()
     http.request {
         method = "POST",
-        url = "http://127.0.0.1:8002/listen",
+        url = "http://127.0.0.1:8003/listen",
         headers = {
             ["content-type"] = "application/json",
         }

@@ -25,7 +25,7 @@ function Scene.update(dt)
         request_body = json.encode(request_body)
         http.request {
             method = "POST",
-            url = "http://127.0.0.1:8002/connect",
+            url = "http://127.0.0.1:8003/connect",
             source = ltn12.source.string(request_body),
             headers = {
                 ["content-type"] = "application/json",

@@ -7,7 +7,7 @@ using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Ge
 function listenForPlayer()
     errormonitor(@async begin
         server = listen(IPv4(0),80) #maybe doesn't work 
-        #println(string("Your IP is: ", getipaddr(), "\n"))
+        println(string("Your IP is: ", getipaddr(), "\n"))
         while true
             sock = accept(server)
             @async while isopen(sock)
@@ -35,3 +35,5 @@ route("/connect", method = POST) do
     connectToPlayer(jsonpayload()["IPAddress"])
     return "POST OK"
 end
+
+up(8003, async = false)
