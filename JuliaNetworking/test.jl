@@ -6,6 +6,7 @@ errormonitor(@async begin
         sock = accept(server)
         @async while isopen(sock)
             write(sock, readline(sock, keep=true))
+            print("here")
         end
     end
 end)
