@@ -1,0 +1,3 @@
+-place cards on the playing field based on the last zoomed cards
+-make a get request to game logic to retreieve location id from cards
+-initGame() function

@@ -1,4 +1,4 @@
-#import Pkg; Pkg.add("Genie")
+import Pkg; Pkg.add("Genie")
 
 using Genie
 using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests

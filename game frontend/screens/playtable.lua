@@ -1,11 +1,23 @@
 local suit = require 'suit'
-
+local Deck1 = 1
+local Deck2 = 2
 local Scene = {}
 local HP = "HP"
 local rank = "Rank#"
 local wl = "W/L#"
 
+
 function Scene.load()
+    local body = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck1)
+    local body1 = json.decode(body)
+    local body2 = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck2)
+    local body2s = json.decode(body2)
+    for k,v in ipairs(body1) do
+    
+    end
+    for k,v in ipairs(body2s) do 
+        
+    end
     pic = love.graphics.newImage("picstarwars.PNG")
 end
 
@@ -24,9 +36,9 @@ function Scene.update(dt)
             SM.load("playerinfo")
         end
 
-    --deck
+    --Hand
     suit.layout:reset(50,0)
-
+        
         if suit.Button("", suit.layout:row(50,150)).hit then
             SM.load("cardzoom")
         end
@@ -144,7 +156,10 @@ function Scene.update(dt)
     suit.layout:reset(360,410)
 
         if suit.Button("Draw", suit.layout:row(164,50)).hit then
-            SM.load("cardzoom")
+            local body = http.request ("http://127.0.0.1:8003/drawCard?Deck=" ..Deck1)
+            local body2 = json.decode(body)
+            
+            
         end
         if suit.Button("Play cards", suit.layout:col(164,50)).hit then
             SM.load("cardzoom")
