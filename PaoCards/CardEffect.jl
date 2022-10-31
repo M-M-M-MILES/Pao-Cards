@@ -13,16 +13,20 @@ end
 
 #These two draw and mill functions loop through the cardStack and checks if for the first instances of a card's location being 1. If a card's location is = to 1, that means it is located in the Deck. 
 #The draw function changes the location of the card to 2 while the mill function changes the location of the card to 3. 2 Means the card is located in the player's hand, while 3 means it's located in the graveyard
-function drawCard(Deck, drawAmount)
+function drawCard(Deck)
+
 j = 1
-for i = 1:drawAmount
+for i = 1:1
     while(Deck.CardList[j].Location != 1)
         j = j+1
     end
     Deck.CardList[j].Location = 2
 end
 end
-
+route("/drawCard", method = GET) do
+    drawCard(getpayload(:Deck))
+    return "GET OK"
+end
 
 function millCard(Deck, millAmount)
 j = 1
@@ -38,3 +42,4 @@ function Summon(targetCard)
     targetCard.Location = 4
     targetCard.Revealed = 2
 end
+up(8003, async = false)
