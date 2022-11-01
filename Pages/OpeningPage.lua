@@ -17,11 +17,6 @@ function Scene.update(dt)
         SM.load("ListenPage")
     end
 
-    suit.layout:row(200,20)
-
-    if suit.Button("Connect to a friend", suit.layout:row(200,50)).hit then
-        SM.load("ConnectPage")
-    end
 
     suit.layout:row(200,20)
 

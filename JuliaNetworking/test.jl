@@ -7,6 +7,7 @@ errormonitor(@async begin
         @async while isopen(sock)
             write(sock, readline(sock, keep=true))
             print("here")
+            #print(sock.getpeername())
         end
     end
 end)
