@@ -26,7 +26,7 @@ end
 
 route("/getUser", method = GET) do
 
-    return getCard(getpayload(:userName))
+    return getUser(getpayload(:userName))
      
 end
 

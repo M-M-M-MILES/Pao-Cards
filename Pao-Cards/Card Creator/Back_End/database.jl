@@ -6,7 +6,7 @@ db = SQLite.DB("Pao-CardData.db")
 
 #user table
 SQLite.execute(db, "CREATE TABLE IF NOT EXISTS Users 
-    (userId INTEGER PRIMARY KEY, userName TEXT, password TEXT, email TEXT, dateOfBirth TEXT,
+    (userId INTEGER PRIMARY KEY, userName TEXT, password TEXT, email TEXT, dateOfBirth DATETIME,
     level INTEGER, rank TEXT, userRole TEXT)")
     101
 
