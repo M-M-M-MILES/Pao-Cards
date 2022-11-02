@@ -1,4 +1,6 @@
-#import Pkg; Pkg.add("Genie")
+import Pkg; Pkg.add("Genie")
+#import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("JSONTables")
 
 using Genie, DataFrames, JSONTables
 using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests
@@ -8,20 +10,25 @@ include("Models/Card.jl")
 include("database.jl")
 
 function createDeck(deckName, userId)
-    try
-        SQLite.execute(db, "INSERT INTO Decks (deckName) VALUES ('$deckName')")
+   
+   try
+        try
+            SQLite.execute(db, "INSERT INTO Decks (deckName) VALUES ('$deckName')")
+            catch
+                println("Error adding deck name")
+        end
+
+        deckId = DBInterface.execute(db, "SELECT deckID FROM Decks WHERE deckName = '$deckName'")
+
+        try
+            SQLite.execute(db, "INSERT INTO User_Decks (userId, deckID) VALUES ('$userId', '$deckId')")
+            catch
+                println("Error when adding deck to user")
+        end
+
         catch
             println("Error creating Deck")
     end
-
-    deckId = DBInterface.execute(db, "SELECT deckID FROM Decks WHERE deckName = '$deckName'")
-
-    try
-        SQLite.execute(db, "INSERT INTO User_Decks (userId, deckID) VALUES ('$userId', '$deckId')")
-        catch
-            println("Error when adding deck to user")
-    end
-
 end
 
 route("/createDeck", method = POST) do
@@ -102,53 +109,58 @@ end
 
 function createCard(cardName, CardType, cardEffect, cardHealth, cardAttack, cardImage, cardRarity)
     
-    try 
-        #"INSERT INTO 'Table Name' (column(s) being entered into separated by commas if multiple) VALUES (Values entered separated by commas if multiple)
-        #'$Name' -> to call a value being passed through a function
-
-       #= SQLite.execute(db, "INSERT INTO Cards (cardName, CardType, cardEffect) VALUES 
-        ('$cardName', '$CardType', '$cardEffect')") =#
-
-        SQLite.execute(db, "INSERT INTO Cards (cardName) VALUES ('$cardName')")
-
-        catch
-            println("Error when creating card")
-    end
-
     try
-        SQLite.execute(db, "UPDATE Cards SET CardType = '$CardType' WHERE cardName = '$cardName'")
-        catch
-            println("Error when adding card type")
-    end
+        try 
+            #"INSERT INTO 'Table Name' (column(s) being entered into separated by commas if multiple) VALUES (Values entered separated by commas if multiple)
+            #'$Name' -> to call a value being passed through a function
 
-    try
-        SQLite.execute(db, "UPDATE Cards SET cardEffect = '$cardEffect' WHERE cardName = '$cardName'")
-        catch
-            println("Error when adding card effect")
-    end
+        #= SQLite.execute(db, "INSERT INTO Cards (cardName, CardType, cardEffect) VALUES 
+            ('$cardName', '$CardType', '$cardEffect')") =#
 
-    try
-        SQLite.execute(db, "UPDATE Cards SET cardHealth = '$cardHealth' WHERE cardName = '$cardName'")
-        catch
-            println("Error when adding card health")
-    end
-    
-    try
-        SQLite.execute(db, "UPDATE Cards SET cardAttack = '$cardAttack' WHERE cardName = '$cardName'")
-        catch
-            println("Error when adding card attack")
-    end
+            SQLite.execute(db, "INSERT INTO Cards (cardName) VALUES ('$cardName')")
 
-    try
-        SQLite.execute(db, "UPDATE Cards SET cardImage = '$cardImage' WHERE cardName = '$cardName'")
-        catch
-            println("Error when adding card image")
-    end
+            catch
+                println("Error when adding card name")
+        end
 
-    try
-        SQLite.execute(db, "UPDATE Cards SET cardRarity = '$cardRarity' WHERE cardName = '$cardName'")
+        try
+            SQLite.execute(db, "UPDATE Cards SET CardType = '$CardType' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card type")
+        end
+
+        try
+            SQLite.execute(db, "UPDATE Cards SET cardEffect = '$cardEffect' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card effect")
+        end
+
+        try
+            SQLite.execute(db, "UPDATE Cards SET cardHealth = '$cardHealth' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card health")
+        end
+        
+        try
+            SQLite.execute(db, "UPDATE Cards SET cardAttack = '$cardAttack' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card attack")
+        end
+
+        try
+            SQLite.execute(db, "UPDATE Cards SET cardImage = '$cardImage' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card image")
+        end
+
+        try
+            SQLite.execute(db, "UPDATE Cards SET cardRarity = '$cardRarity' WHERE cardName = '$cardName'")
+            catch
+                println("Error when adding card rarity")
+        end
+        
         catch
-            println("Error when adding card rarity")
+            println("Error creating card")
     end
 end 
 
