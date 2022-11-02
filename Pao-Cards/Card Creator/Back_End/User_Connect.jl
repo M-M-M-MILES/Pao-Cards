@@ -1,12 +1,20 @@
-using("Models/User.jl")
-using("Models/Card.jl")
+#using("Models/User.jl")
+#using("Models/Card.jl")
 
 #import .User_mod
 #import .Card_mod
+import Pkg; Pkg.add("Genie")
+import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("JSONTables")
 
-function getUser(username)
+using Genie, DataFrames, JSONTables
+using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests
+
+include("database.jl")
+
+function getUser(userName)
     try
-        cur = DBInterface.execute(db, "SELECT * FROM Users WHERE userName = '$username'")
+        cur = DBInterface.execute(db, "SELECT * FROM Users WHERE userName = '$userName'")
         df = DataFrame(cur)
         stringJSON = arraytable(df)
         return stringJSON
@@ -17,7 +25,7 @@ end
 
 route("/getUser", method = GET) do
 
-    return getCard(getpayload(:userName))
+    return getUser(getpayload(:userName))
      
 end
 
@@ -50,13 +58,13 @@ function createUser(userName, password, email, dateOfBirth)
     end
 
     try
-        SQLite.execute(db, "UPDATE Users SET userRole = User WHERE userName = '$userName'")
+        SQLite.execute(db, "UPDATE Users SET userRole = 'User' WHERE userName = '$userName'")
         catch
             println("Error when adding user role")
     end
 
     try
-        SQLite.execute(db, "UPDATE Users SET level = 1 WHERE userName = '$userName'")
+        SQLite.execute(db, "UPDATE Users SET level = '1' WHERE userName = '$userName'")
         catch
             println("Error when adding user level")
     end
@@ -88,3 +96,5 @@ end
 function logout()
 
 end
+
+up(8002, async = false)
