@@ -1,5 +1,14 @@
-using("Models/User.jl")
-using("Models/Card.jl")
+import Pkg; Pkg.add("Genie")
+#import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("JSONTables")
+
+using Genie, DataFrames, JSONTables
+using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests
+
+
+include("Models/User.jl")
+include("Models/Card.jl")
+include("database.jl")
 
 #import .User_mod
 #import .Card_mod
@@ -88,3 +97,5 @@ end
 function logout()
 
 end
+
+up(8004, async = false)
