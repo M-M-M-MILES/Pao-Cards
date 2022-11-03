@@ -1,11 +1,13 @@
 import Pkg; Pkg.add("Genie")
 
+
 using Genie
 using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests
 
 include("Models/User.jl")
 include("Models/Card.jl")
 include("database.jl")
+include("Game.jl")
 
 #import .User_mod
 #import .Card_mod

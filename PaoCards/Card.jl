@@ -2,7 +2,7 @@ mutable struct Card
     cardId::Int
     cardName::String
     cardType::CardType
-    cardEffect::CardEffect
+    cardEffectId::Int
     Location::Int
     Health::Int
     Attack::Int

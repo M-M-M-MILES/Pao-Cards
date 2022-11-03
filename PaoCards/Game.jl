@@ -1,3 +1,12 @@
+include("database.jl")
+
+
+route("/getCard2", method = GET ) do 
+    print(getCard(getpayload(:cardName)))
+end
+
+
+
 #This block of code will be the main while loop that happens while a duel is happening.
 
 

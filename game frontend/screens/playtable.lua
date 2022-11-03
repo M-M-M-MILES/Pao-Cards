@@ -13,10 +13,14 @@ function Scene.load()
     local body2 = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck2)
     local body2s = json.decode(body2)
     for k,v in ipairs(body1) do
+    Card = v.location
+    local body = http.request ("http://127.0.0.1:8003/drawCard?Deck=" ..Deck1)
+    local body1 = json.decode(body)
     
+
     end
     for k,v in ipairs(body2s) do 
-        
+
     end
     pic = love.graphics.newImage("picstarwars.PNG")
 end
