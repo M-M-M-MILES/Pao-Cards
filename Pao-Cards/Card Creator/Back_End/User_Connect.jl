@@ -1,39 +1,101 @@
-using("Models/User.jl")
-using("Models/Card.jl")
+import Pkg; Pkg.add("Genie")
+#import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("JSONTables")
+
+using Genie, DataFrames, JSONTables
+using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Genie.Requests
+
+
+include("Models/User.jl")
+include("Models/Card.jl")
+include("database.jl")
 
 #import .User_mod
 #import .Card_mod
 
-function getUser(x, y)
-    currentUser = SQLite.execute(db, "SELECT * FROM Users WHERE userId = ('$x')")
-    user = SQLite.execute(db, "SELECT * FROM Users WHERE userId = ('$y')")
+function getUser(username)
+    try
+        cur = DBInterface.execute(db, "SELECT * FROM Users WHERE userName = '$username'")
+        df = DataFrame(cur)
+        stringJSON = arraytable(df)
+        return stringJSON
+        catch
+            println("Error returning user")
+     end
+end
 
-    if(currentUser.userId = user.userId || currentUser.userRole = "Admin")
-        return user
-    else
-        return user.userName + user.level + user.rank
-    end
+route("/getUser", method = GET) do
+
+    return getUser(getpayload(:userName))
+     
 end
 
 function createUser(userName, password, email, dateOfBirth)
-    #need to add troubleshooting (checking if a user already exists, if passwords/emails match, etc)
-    SQLite.execute(db, "INSTER INTO Users (userName) VALUES ('$userName')")
-    SQLite.execute(db, "INSTER INTO Users (password) VALUES ('$password')")
-    SQLite.execute(db, "INSTER INTO Users (email) VALUES ('$email')")
-    SQLite.execute(db, "INSTER INTO Users (dateOfBirth) VALUES ('$dateOfBirth')")
-    SQLite.execute(db, "INSTER INTO Users (userRole) VALUES ('Player')")
-    SQLite.execute(db, "INSTER INTO Users (level) VALUES ('1')")
-    SQLite.execute(db, "INSTER INTO Users (rank) VALUES ('No Rank')")
+    
+    #Need to check to see if username already exists
+    try
+        SQLite.execute(db, "INSERT INTO Users (userName) VALUES ('$userName')")
+
+        catch
+            println("Unable to create user")
+    end
+
+    try
+        SQLite.execute(db, "UPDATE Users SET password = '$password' WHERE userName = '$userName'")
+        catch
+            println("Error when adding password")
+    end
+
+    try
+        SQLite.execute(db, "UPDATE Users SET email = '$email' WHERE userName = '$userName'")
+        catch
+            println("Error when adding email")
+    end
+
+    try
+        SQLite.execute(db, "UPDATE Users SET dateOfBirth = '$dateOfBirth' WHERE userName = '$userName'")
+        catch
+            println("Error when adding date of birth")
+    end
+
+    try
+        SQLite.execute(db, "UPDATE Users SET userRole = User WHERE userName = '$userName'")
+        catch
+            println("Error when adding user role")
+    end
+
+    try
+        SQLite.execute(db, "UPDATE Users SET level = 1 WHERE userName = '$userName'")
+        catch
+            println("Error when adding user level")
+    end
+
 end
 
-function createAdminUser(userName, password, email, dateOfBirth) 
-    #need to add troubleshooting (checking if a user already exists, if passwords/emails match, etc)
-    #in the future, this will change, but this should work for now
-    SQLite.execute(db, "INSTER INTO Users (userName) VALUES ('$userName')")
-    SQLite.execute(db, "INSTER INTO Users (password) VALUES ('$password')")
-    SQLite.execute(db, "INSTER INTO Users (email) VALUES ('$email')")
-    SQLite.execute(db, "INSTER INTO Users (dateOfBirth) VALUES ('$dateOfBirth')")
-    SQLite.execute(db, "INSTER INTO Users (userRole) VALUES ('Admin')")
-    SQLite.execute(db, "INSTER INTO Users (level) VALUES ('1')")
-    SQLite.execute(db, "INSTER INTO Users (rank) VALUES ('No Rank')")
+route("/createUser", method = POST) do
+    createUser(jsonpayload()["userName"], jsonpayload()["password"], jsonpayload()["email"], jsonpayload()["dateOfBirth"])
+    return "POST OK"
 end
+
+function changeUserRole(userName, role) 
+    try
+        SQLite.execute(db, "UPDATE Users SET userRole = '$role' WHERE userName = '$userName'")
+        catch
+            println("Error when trying to change user role")
+    end
+end
+
+route("/changeUserRole", method = PUT)do
+    changeUserRole(jsonpayload()["userName"],jsonpayload()["role"])
+        return "POST OK"
+end
+
+function login(userName, password)
+
+end
+
+function logout()
+
+end
+
+up(8004, async = false)

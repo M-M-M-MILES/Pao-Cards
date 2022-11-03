@@ -13,9 +13,17 @@ local effectbox = {text = "effectbox"}
 local name = {text = ""}
 local effect = {text = ""}
 local ctype = {text = ""}
+local hpnum = 0
+local dnum = 0
+local rarity = {text = " "}
 local image
+local pic
+
+
+local code1
 
 function Scene.load()
+    pic = love.graphics.newImage('Images/clonepic.jpg')
 end
 
 function Scene.update(dt)
@@ -30,11 +38,8 @@ function Scene.update(dt)
 
     suit.layout:row(200,0)
 
-    if suit.Input(name, suit.layout:row(200,30)).hovered then
+    suit.Input(name, suit.layout:row(200,30))
 
-        suit.Label(name.text, {align = "left"}, suit.layout:col())
-
-    end
     suit.layout:reset(100,119)
 
     suit.layout:row(200,25)
@@ -86,7 +91,7 @@ function Scene.update(dt)
    
     if suit.Button("Back", suit.layout:row(70,50)).hit then
         SM.load("MenuPage")
-        SM.unload("MonsterPage")
+        SM.unload("SpellPage")
     end
 
     suit.layout:col(60,50)
@@ -96,7 +101,7 @@ function Scene.update(dt)
         print(effect.text)
         print(ctype.text)
 
-        local request_body = { cardName = name.text, CardType = ctype.text, cardEffect = effect.text} --the json body
+        local request_body = { cardName = name.text, CardType = ctype.text, cardEffect = effect.text, cardHealth = hpnum, cardAttack = dnum, cardImage = image, cardRarity = rarity.text} --the json body
         request_body = json.encode(request_body)
         local res, code, headers, status = http.request {
             method = "POST",
@@ -109,12 +114,42 @@ function Scene.update(dt)
             sink = ltn12.sink.table(response_body)
         }
         response = table.concat(body)
-
+        code1 = code
     end
+
+    local answer = {text = ""}
+
+    if code1 == 200 then
+        answer.text = "Your card has been made."
+    end
+   
+    suit.layout:reset(100,450)
+    suit.Label(answer.text, {align = "left"}, suit.layout:row(300,50))
+
+    --left side of screen--
+    suit.layout:reset(520,5)
+
+    suit.Label(name.text, {align = "center"}, suit.layout:row(150,50))
+
+    suit.layout:reset(440,280)
+    
+    suit.Label(effect.text, {align = "left"}, suit.layout:row(310, 30))
+
 end
 
 function Scene.draw()
     love.graphics.setBackgroundColor(0, 0.4, 1, 1.0)
+    love.graphics.setColor(0.4,0.4,0.4)
+    love.graphics.rectangle("fill", 420, 10, 350, 550) 
+    love.graphics.setColor(1,1,1,.2)
+    love.graphics.rectangle("fill", 440, 280, 310, 250)
+    love.graphics.setColor(0.2,0.2,0.2)
+    --love.graphics.rectangle("fill", 710, 520, 50, 20)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.scale(2.2,1.1)
+    love.graphics.scale(.6,.7)
+    love.graphics.draw(pic, 332, 60)
+    love.graphics.reset()
     suit.draw()
 end
 
@@ -134,6 +169,6 @@ function love.filedropped(file)
 	print("Content of " .. file:getFilename() .. ' is')
 	print(data)
 	print("End of file")
+    image = file:getFilename()
 end
-
 return Scene

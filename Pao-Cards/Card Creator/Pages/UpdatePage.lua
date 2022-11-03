@@ -1,14 +1,11 @@
 local http = require("socket.http")
 local ltn12 = require"ltn12"
 local json = require "dkjson"
-local body = {}
-
-
-
-response = table.concat(body)
 
 local suit = require 'suit'
+
 local Scene = {}
+local bodySent = {}
 
 local typebox = {text = "typebox"}
 local effectbox = {text = "effectbox"}
@@ -16,29 +13,60 @@ local rarebox = {text = "rarebox"}
 local classbox = {text = "classbox"}
 
 local name = {text = ""}
+local name2 = {text = ""}
 local hp = {text = ""}
-local hpnum
+local hpnum = 0
 local damage = {text = ""}
-local dnum
+local dnum = 0
 local class = {text = ""}
-local effect = {text = ""}
+local effect = {text = "", text2 = ""}
 local rarity = {text = ""}
 local ctype = {text = ""}
+local image = "testimage"
 local code1
 
-
-local image
 function Scene.load()
-    pic = love.graphics.newImage("Images/clonepic.jpg")
 end
 
 function Scene.update(dt)
-    ctype = {text = "Monster"}
-    suit.layout:reset(100,0)
+    suit.layout:reset(100,10)
 
-    suit.Label("Monster card Creater", {align = "center"}, suit.layout:row(200,50))
+    suit.Label("Update card menu", {align = "center"}, suit.layout:row(200,50))
+
+    suit.Label("What is the name of the card you wish to see?", {align = "left"}, suit.layout:row(200,14))
 
     suit.layout:row(200,15)
+
+    suit.Input(name2, suit.layout:row(200,30))
+
+    suit.layout:row(200,25)
+
+    if suit.Button("Get", suit.layout:row(200,50)).hit then
+        print(name2.text)
+
+        local body = http.request ("http://127.0.0.1:8002/getCard?cardName=" .. name2.text)
+        local body2 = json.decode(body) --> changes to table
+        print(body)
+        print(body2)
+        for k,v in ipairs(body2) do
+            name.text = v.cardName
+            effect.text = v.cardEffect
+            hpnum = v.cardHealth
+            dnum = v.cardAttack
+            image = v.cardImage
+            rarity.text = v.cardRarity
+            class.text = v.CardType
+            Id = v.cardId
+        end       
+    end
+
+    suit.layout:reset(100,210)
+
+    --update--
+
+    suit.Label("Update:", {align = "center"}, suit.layout:row(200,50))
+
+    suit.layout:reset(100,250)
 
     suit.Label("What is the name?", {align = "left"}, suit.layout:row(200,14))
 
@@ -46,7 +74,7 @@ function Scene.update(dt)
 
     suit.Input(name, suit.layout:row(200,30))
 
-    suit.layout:reset(100,109)
+    suit.layout:reset(100,270)
 
     suit.layout:row(200,25)
 
@@ -57,7 +85,7 @@ function Scene.update(dt)
 
    suit.Input(hp, suit.layout:row(200,30))
     
-    suit.layout:reset(100,178)
+    suit.layout:reset(100,315)
 
    suit.layout:row(200,25)
 
@@ -67,10 +95,16 @@ function Scene.update(dt)
 
     suit.Input(damage, suit.layout:row(200,30))
 
-    suit.layout:reset(100,247)
+    suit.layout:reset(300,310)
+
+    if suit.Button("Enter Hp and damage", suit.layout:row(90,80)).hit then
+       dnum = tonumber(damage.text)
+       hpnum = tonumber(hp.text) 
+    end
+
+    suit.layout:reset(100,360)
 
     suit.layout:row(200,25)
-
 
     suit.Label("What is the card class?", {align = "left"}, suit.layout:row(200,14))
 
@@ -79,7 +113,7 @@ function Scene.update(dt)
     suit.Checkbox(classbox, {align='right'}, suit.layout:row(20,20))
 
    if classbox.checked then
-    rows = suit.layout:rows{pos = {310,260}, min_height = 300,
+    rows = suit.layout:rows{pos = {310,400}, min_height = 300,
     {100, 30},
     {100, 30},
     {100, 30},
@@ -106,7 +140,7 @@ function Scene.update(dt)
         class = {text = "Healer"}
     end 
    end
-    suit.layout:reset(100,316)
+    suit.layout:reset(100,390)
 
     suit.layout:row(200,25)
 
@@ -117,7 +151,7 @@ function Scene.update(dt)
     suit.Checkbox(effectbox, {align='right'}, suit.layout:row(20,20))
 
    if effectbox.checked then
-    rows = suit.layout:rows{pos = {310,350}, min_height = 300,
+    rows = suit.layout:rows{pos = {310,400}, min_height = 300,
     {100, 30},
     {100, 30},
     {100, 30},
@@ -126,34 +160,34 @@ function Scene.update(dt)
 }
     effect1 = suit.Button("Damge", {align="left", font = smallerFont}, rows.cell(1))
     if effect1.hit then
-        effect = {text = effect.text .. " Damage"}
+        effect = {text = "", text2 = effect.text2 .. " Damage"}
     end 
 
     effect2 = suit.Button("Damage buff", {align="left", font = smallerFont}, rows.cell(2))
     if effect2.hit then
 
-        effect = {text = effect.text .. " Damage buff"}
+        effect = {text = "", text2 = effect.text2 .. " Damage buff"}
     end 
 
     effect3 = suit.Button("Defensive", {align="left", font = smallerFont}, rows.cell(3))
     if effect3.hit then
-        effect = {text = effect.text .. " Defensive"}
+        effect = {text = "", text2 = effect.text2 .. " Defensive"}
     end 
 
     effect4 = suit.Button("Defense buff", {align="left", font = smallerFont}, rows.cell(4))
     if effect4.hit then
-        effect = {text = effect.text .. " Defense buff"}
+        effect = {text = "", text2 = effect.text2 .. " Defense buff"}
     end 
 
     effect5 = suit.Button("Healing", {align="left", font = smallerFont}, rows.cell(5))
     if effect5.hit then
-        effect = {text = effect.text .. " Healing"}
+        effect = {text = "", text2 = effect.text2 .. " Healing"}
     end 
    end
-    suit.layout:reset(100,375)
+
+    suit.layout:reset(100,420)
 
     suit.layout:row(200,25)
-
 
     suit.Label("What is the rarity?", {align = "left"}, suit.layout:row(200,14))
 
@@ -189,33 +223,33 @@ function Scene.update(dt)
     end 
    end
 
-    suit.layout:reset(100,430)
+    suit.layout:reset(100,460)
 
     suit.layout:row(200,25)
 
     if suit.Button("Back", suit.layout:row(70,50)).hit then
-        SM.load("MenuPage")
-        SM.unload("MonsterPage")
+        SM.load("MasterPage")
+        SM.unload("UpdatePage")
     end
 
     suit.layout:col(60,50)
     
     if suit.Button("Submit", suit.layout:col(70,50)).hit then
-        hpnum = tonumber(hp.text)
-        dnum = tonumber(damage.text)
+        print(hpnum)
+        print(dnum)
         print(name.text)
         print(hpnum)
         print(dnum)
         print(class.text)
-        print(effect.text)
+        print(effect.text2)
         print(rarity.text)
         print(ctype.text)
 
-        local request_body = { cardName = name.text, CardType = class.text, cardClass = class.text, cardEffect = effect.text, cardHealth = hpnum, cardAttack = dnum, cardImage = image, cardRarity = rarity.text} --the json body
+        local request_body = { cardId = Id, cardName = name.text, CardType = class.text, cardClass = class.text, cardEffect = effect.text2, cardHealth = hpnum, cardAttack = dnum, cardImage = image, cardRarity = rarity.text} --the json body
         request_body = json.encode(request_body)
         local res, code, headers, status = http.request {
-            method = "POST",
-            url = "http://127.0.0.1:8002/createCard",
+            method = "PUT",
+            url = "http://127.0.0.1:8002/updateCard",
             source = ltn12.source.string(request_body),
             headers = {
                 ["content-type"] = "application/json",
@@ -223,7 +257,7 @@ function Scene.update(dt)
             },
             sink = ltn12.sink.table(response_body)
         }
-        response = table.concat(body)
+        response = table.concat(bodySent)
         code1 = code
     end
 
@@ -234,18 +268,17 @@ function Scene.update(dt)
     end
 
    
-    suit.layout:reset(100,500)
+    suit.layout:reset(100,550)
     suit.Label(answer.text, {align = "left"}, suit.layout:row(300,50))
 
-
-    -- the left side of the screen--
+    --left side of screen--
     suit.layout:reset(520,5)
 
     suit.Label(name.text, {align = "center"}, suit.layout:row(150,50))
 
     suit.layout:reset(440,280)
     
-    suit.Label(effect.text, {align = "left"}, suit.layout:row(310, 30))
+    suit.Label(effect.text .. effect.text2, {align = "left"}, suit.layout:row(310, 30))
 
     suit.layout:reset(515,230)
 
@@ -253,11 +286,11 @@ function Scene.update(dt)
 
     suit.layout:reset(485,480)
 
-    suit.Label(hp.text .. "/" .. damage.text, {align = "center"}, suit.layout:row(500, 100))
+    suit.Label(hpnum .. "/" .. dnum, {align = "center"}, suit.layout:row(500, 100))
 end
 
 function Scene.draw()
-    love.graphics.setBackgroundColor(0.8, 0, 0, 0)
+    love.graphics.setBackgroundColor(0, 0.6, 0.6, 1.0)
     love.graphics.setColor(0.4,0.4,0.4)
     love.graphics.rectangle("fill", 420, 10, 350, 550) 
     love.graphics.setColor(1,1,1,.2)
@@ -267,7 +300,7 @@ function Scene.draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.scale(2.2,1.1)
     love.graphics.scale(.6,.7)
-    love.graphics.draw(pic, 332, 60)
+    --love.graphics.draw(pic, 332, 60)
     love.graphics.reset()
     suit.draw()
 end
@@ -280,15 +313,6 @@ end
 function love.keypressed(key)
 	-- forward keypresses to SUIT
 	suit.keypressed(key)
-end
-
-function love.filedropped(file)
-	file:open("r")
-	local data = file:read()
-	print("Content of " .. file:getFilename() .. ' is')
-	print(data)
-	print("End of file")
-    image = file:getFilename()
 end
 
 return Scene

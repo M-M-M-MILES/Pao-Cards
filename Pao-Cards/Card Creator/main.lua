@@ -2,7 +2,7 @@ SM = require "SceneMgr"
 
 function love.load()
     SM.setPath("Pages/")
-    SM.load("MenuPage")
+    SM.load("MasterPage")
 end
 
 function love.update(dt)

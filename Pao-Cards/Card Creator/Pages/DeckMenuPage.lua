@@ -9,25 +9,25 @@ end
 function Scene.update(dt)
     suit.layout:reset(295,50)
 
-    suit.Label("What type of card do you wish to create?", {align = "center"}, suit.layout:row(200,50))
+    suit.Label("What is it you wish to do in decks?", {align = "center"}, suit.layout:row(200,50))
 
     suit.layout:row(200,25)
 
-    if suit.Button("Monster", suit.layout:row(200,50)).hit then
-        SM.load("MonsterPage")
+    if suit.Button("Create deck", suit.layout:row(200,50)).hit then
+        SM.load("CreateDeckPage")
     end
 
     suit.layout:row(200,20)
 
-    if suit.Button("Spell", suit.layout:row(200,50)).hit then
-        SM.load("SpellPage")
+    if suit.Button("Add to deck", suit.layout:row(200,50)).hit then
+        SM.load("AddDeckPage")
     end
 
-    suit.layout:row(200,20)
+    -- suit.layout:row(200,20)
 
-   -- if suit.Button("Land", suit.layout:row(200,50)).hit then
-   --     SM.load("LandPage")
-    --end
+    -- if suit.Button("Get deck", suit.layout:row(200,50)).hit then
+    --     SM.load("GetDeckPage")
+    -- end
 
     suit.layout:row(200,20)
 
