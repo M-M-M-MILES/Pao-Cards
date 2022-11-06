@@ -1,10 +1,12 @@
 include("database.jl")
+include("Card_Connect.jl")
 
+route("/getCard2", method = GET) do
 
-route("/getCard2", method = GET ) do 
-    print(getCard(getpayload(:cardName)))
+   test = getCard(getpayload(:cardName))
+     createCard(test)
+     print(test)
 end
-
 
 
 #This block of code will be the main while loop that happens while a duel is happening.
@@ -24,8 +26,21 @@ while (phaseCount == 1 )
     phaseCount = 2
 end
 while (phaseCount == 2 )
-    #the player chooses to summon a monster or cast a spell
-    # once the player summons a monster, the phase changes
+  
+   s[]
+   for i = 1:Dueler1.CurrentDeck
+    if (Dueler1.CurrentDeck[i].Location == 2)
+        push(s, Dueler1.CurrentDeck[i])
+    end
+end
+print("Choose a card to cast or 0 to skip main phase")
+print(s)
+cardToCast = readline()
+if (cardToCast != 0)
+    Summon(s[cardToCast])
+end
+
+
     phaseCount = 3
 end
 while (phaseCount == 3)
@@ -33,13 +48,23 @@ while (phaseCount == 3)
 end
 while (phaseCount == 4)
     i = 0
-    n = 0
+    n[]
     for i = 0:Dueler1.CurrentDeck
         if Dueler1.CurrentDeck[i].Location == 2
-            n = n + 1
+            push(n,Dueler1.CurrentDeck[i])
         end
     end
-    # if n > 5 ask the player to change n - 5 card's locations to 3
+    if (length(n) > 5)
+        i = length(n)
+       while (i > 5)
+        print("Choose a card to discard")
+        print(n)
+        cardToDiscard = readline()
+        n[cardToDiscard].Location = 3
+        n[cardToDiscard] = 0
+       end
+
+
     phaseCount = 1
 end
 end

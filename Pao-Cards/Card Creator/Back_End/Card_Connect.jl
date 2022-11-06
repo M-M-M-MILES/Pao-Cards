@@ -1,5 +1,5 @@
 import Pkg; Pkg.add("Genie")
-#import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("DataFrames")
 import Pkg; Pkg.add("JSONTables")
 
 using Genie, DataFrames, JSONTables
@@ -8,6 +8,9 @@ using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Ge
 include("Models/User.jl")
 include("Models/Card.jl")
 include("database.jl")
+
+
+
 
 function createDeck(deckName, userId)
    
@@ -211,6 +214,7 @@ route("/getCard", method = GET) do
     return getCard(getpayload(:cardName))
      
 end
+
 
 function deleteCard(cardName)
     try

@@ -9,3 +9,5 @@ mutable struct Card
     Action::String
     Revealed::Int
 end
+
+function createCardIG() #Copy function in cardConnect and map the values where they need to be on the ingame card model
