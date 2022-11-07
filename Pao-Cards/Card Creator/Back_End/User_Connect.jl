@@ -1,5 +1,5 @@
 import Pkg; Pkg.add("Genie")
-#import Pkg; Pkg.add("DataFrames")
+import Pkg; Pkg.add("DataFrames")
 import Pkg; Pkg.add("JSONTables")
 
 using Genie, DataFrames, JSONTables

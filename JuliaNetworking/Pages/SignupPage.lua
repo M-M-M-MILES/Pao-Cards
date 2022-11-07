@@ -48,11 +48,11 @@ function Scene.update(dt)
     suit.layout:row(200,25)
 
     if suit.Button("Submit", suit.layout:row(200,50)).hit then
-        local request_body = { userName = username.text, password = password.text, email = email.text, DOB = DOB.text} --the json body
+        local request_body = { userName = username.text, password = password.text, email = email.text, dateOfBirth = DOB.text} --the json body
         request_body = json.encode(request_body)
         local res, code, headers, status = http.request {
             method = "POST",
-            url = "http://127.0.0.1:8004/createUser", --NEED TO CHANGE
+            url = "http://127.0.0.1:8004/createUser", 
             source = ltn12.source.string(request_body),
             headers = {
                 ["content-type"] = "application/json",
