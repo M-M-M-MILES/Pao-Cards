@@ -48,7 +48,7 @@ function Scene.update(dt)
         request_body = json.encode(request_body)
         local res, code, headers, status = http.request {
             method = "POST",
-            url = "http://127.0.0.1:8002/createCard", --NEED TO CHANGE
+            url = "http://127.0.0.1:8004/createUser", --NEED TO CHANGE
             source = ltn12.source.string(request_body),
             headers = {
                 ["content-type"] = "application/json",
