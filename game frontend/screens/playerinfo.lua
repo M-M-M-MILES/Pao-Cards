@@ -1,4 +1,8 @@
 local suit = require 'suit'
+local http = require("socket.http")
+local ltn12 = require"ltn12"
+local json = require "dkjson"
+local body = {}
 
 local Scene = {}
 local text = "This is it what the hello nice job dictionary through"

@@ -1,3 +1,7 @@
+local http = require("socket.http")
+local ltn12 = require"ltn12"
+local json = require "dkjson"
+local body = {}
 local suit = require 'suit'
 local Deck1 = 1
 local Deck2 = 2
