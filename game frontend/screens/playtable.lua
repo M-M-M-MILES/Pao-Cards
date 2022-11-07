@@ -1,3 +1,7 @@
+local http = require("socket.http")
+local ltn12 = require"ltn12"
+local json = require "dkjson"
+local body = {}
 local suit = require 'suit'
 local Deck1 = 1
 local Deck2 = 2
@@ -12,12 +16,12 @@ function Scene.load()
     local body1 = json.decode(body)
     local body2 = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck2)
     local body2s = json.decode(body2)
-    for k,v in ipairs(body1) do
+    -- for k,v in ipairs(body1) do
     
-    end
-    for k,v in ipairs(body2s) do 
+    -- end
+    -- for k,v in ipairs(body2s) do 
         
-    end
+    -- end
     pic = love.graphics.newImage("picstarwars.PNG")
 end
 
