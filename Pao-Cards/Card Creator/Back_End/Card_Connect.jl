@@ -12,6 +12,7 @@ include("database.jl")
 
 
 
+
 function createDeck(deckName, userId)
    
    try
@@ -228,6 +229,23 @@ route("/deleteCard", method = DELETE) do
     deleteCard(getpayload(:cardName))
     return "DELETE OK"
 end
+
+
+function getCardId(cardId)
+    try 
+        cur = DBInterface.execute(db, "SELECT * FROM Cards Where cardId = '$cardId")
+        df = DataFrame(cur)
+        stringJson = arraytable(df)
+        return stringJson
+    catch
+        println("error returning card")
+    end
+end
+
+route("getCardId", method = GET) do
+    return getCardId(getpayload(:cardId))
+end
+
 
 # Launch the server on a specific port, 8002
 # Run the task asynchronously

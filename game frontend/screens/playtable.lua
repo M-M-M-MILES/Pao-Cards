@@ -8,9 +8,9 @@ local wl = "W/L#"
 
 
 function Scene.load()
-    local body = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck1)
+    local body = http.request ("http://127.0.0.1:8002/getDeckCards?Deck=" ..Deck1)
     local body1 = json.decode(body)
-    local body2 = http.request ("http://127.0.0.1:8002/getUserDeck?Deck=" ..Deck2)
+    local body2 = http.request ("http://127.0.0.1:8002/getDeckCards?Deck=" ..Deck2)
     local body2s = json.decode(body2)
     for k,v in ipairs(body1) do
     Card = v.location
