@@ -3,7 +3,7 @@ SM = require "SceneMgr"
 function love.load()
     SM.setPath("screens/")
     SM.load("playtable")
-    love.window.setFullscreen(true, "desktop")
+    --love.window.setFullscreen(true, "desktop")
     background = love.graphics.newImage("background.jpg")
 end
 
