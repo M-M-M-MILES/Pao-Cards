@@ -344,7 +344,7 @@ local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
         print(v.cardId)
         local body = http.request ("http://127.0.0.1:8002/getCardId?cardId=" .. v.cardId)
         local body2test = json.decode(body) --> changes to table
-        for k,v in ipairs(body2test) do
+        for j,v in ipairs(body2test) do
             name = v.cardName
             -- effect.text = v.cardEffect
             -- hpnum = v.cardHealth
