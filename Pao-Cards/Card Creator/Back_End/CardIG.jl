@@ -1,4 +1,5 @@
 mutable struct Card
+    CardId::Int
     cardName::String
     cardType::CardType
     cardEffect::String
@@ -15,10 +16,16 @@ function getCardsbyLocation(CardArray)
     inPlay = []
     for i = 1:eachindex(CardArray)
         if CardArray[i].Location == 1
+
+
             push(inDeck, CardArray[i])
         elseif CardArray[i].Location == 2
+
+
             push(inHand, CardArray[i])
         elseif CardArray[i].Location == 3
+
+
             push(inPlay, CardArray[i])
         else
             push(inGraveyard, CardArray[i])

@@ -38,6 +38,18 @@ route("/drawCard", method = POST) do
     drawCard(jsonpayload()["Deck"], jsonpayload()["drawAmount"])
     return "POST OK"
 end
+route("/getCardLocation", method = GET) do
+
+    return getCardLocation(getpayload(:Location))
+     
+end
+
+function getCardLocation(location)
+
+end
+
+
+
 
 
 function millCard(Deck, millAmount)
