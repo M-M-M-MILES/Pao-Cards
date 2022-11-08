@@ -1,3 +1,6 @@
+include("CardIG.jl")
+
+
 mutable struct CardEFfect
     cardEffectId::Int
     Description::String
@@ -7,7 +10,13 @@ end
 function dealDamage(TargetPlayer, card, damageAmount)
     if card == 0
         TargetPlayer.Health = TargetPlayer.Health - damageAmount
+    else
+        card.Health = card.Health - damageAmount
+        if card.Health <= 0
+            card.Location = 4
     end
+end
+getCardsbyLocation(TargetPlayer.CurrentDeck)
 end
 
 
@@ -22,6 +31,7 @@ for i = 1:drawAmount
     end
     Deck.CardList[j].Location = 2
 end
+return (getCardsbyLocation(TargetPlayer.CurrentDeck))
 end
 
 
@@ -33,6 +43,7 @@ for i = 1:millAmount
     end
     Deck.CardList[j].Location = 3
 end
+return (getCardsbyLocation(TargetPlayer.CurrentDeck))
 end 
 #Summoning changes the location of the card to 4, meaning its on the board, and the revealed value of the card to 2, meaning its now revealed to opposing players
 function Summon(targetCard)
@@ -48,6 +59,10 @@ function spellCard(spellCard)
         millCard(CasterDeck, spellCard.Attack)
     elseif spellCard.cardEffectIf == 3
         dealDamage(TargetPlayer, card, damageAmount)
+        end
+        return (getCardsbyLocation(TargetPlayer.CurrentDeck))
+    end
+
         
 
 
