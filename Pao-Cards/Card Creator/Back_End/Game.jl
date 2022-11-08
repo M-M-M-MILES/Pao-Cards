@@ -117,9 +117,92 @@ while (phaseCount == 4)
        end
 
 
+       #player 2 phases
+
+       while (phaseCount == 5 )
+        drawCard(CurrentDeck2, 1)
+        phaseCount = 6
+    end
+    while (phaseCount == 6 )
+      
+       s[]
+       for i = 1:CurrentDeck2
+        if (CurrentDeck2[i].Location == 2)
+            push(s, CurrentDeck2[i])
+        end
+    end
+    print("Choose a card to cast or 0 to skip main phase")
+    print(s)
+    cardToCast = readline()
+    if (cardToCast != 0)
+        Summon(s[cardToCast])
+    end
+    
+    
+        phaseCount = 7
+    end
+    while (phaseCount == 7)
+       #Attacking Phase
+       complete = 0
+        while complete == 0
+        en = []
+        for i = i:length(CurrentDeck1)
+            if CurrentDeck1[i].Location == 3 
+                push(en, CurrentDeck1[i])
+            end
+        end
+        you = []
+        for i = i:length(CurrentDeck2)
+            if CurrentDeck2[i].Location == 3
+                push(you, CurrentDeck2[i])
+            end
+        end
+        if isempty(you) == true
+            complete = 1
+        else
+            print("Enemy LineUp", en)
+            print("Your Lineup", you)
+            print("Choose a card to attack with")
+            Attacker = readline()
+            if isempty(en) == true
+                dealDamage(Dueler1, 0, you[Attacker].Attack)
+            else
+            print("Choose an enemy card to attack")
+            Victim = readline()
+            dealDamage(Dueler1, en[Victim], you[Attacker].Attack)
+            end
+            end
+    end
+    end
+    
+       
+    
+    
+    
+    while (phaseCount == 8)
+        i = 0
+        n[]
+        for i = 0:CurrentDeck2
+            if CurrentDeck2[i].Location == 2
+                push(n,CurrentDeck2[i])
+            end
+        end
+        if (length(n) > 5)
+            i = length(n)
+           while (i > 5)
+            print("Choose a card to discard")
+            print(n)
+            cardToDiscard = readline()
+            n[cardToDiscard].Location = 3
+            n[cardToDiscard] = 0
+           end
+       
+
+
     phaseCount = 1
 end
 end
+
 end 
 end
 

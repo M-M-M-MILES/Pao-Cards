@@ -1,4 +1,5 @@
 mutable struct Card
+    CardId::Int
     cardName::String
     cardType::CardType
     cardEffect::String
@@ -8,4 +9,28 @@ mutable struct Card
     Acted::Int
 end
 
-function createCardIG() #Copy function in cardConnect and map the values where they need to be on the ingame card model
+function getCardsbyLocation(CardArray)
+    inHand = []
+    inDeck = []
+    inGraveyard = []
+    inPlay = []
+    for i = 1:eachindex(CardArray)
+        if CardArray[i].Location == 1
+
+
+            push(inDeck, CardArray[i])
+        elseif CardArray[i].Location == 2
+
+
+            push(inHand, CardArray[i])
+        elseif CardArray[i].Location == 3
+
+
+            push(inPlay, CardArray[i])
+        else
+            push(inGraveyard, CardArray[i])
+
+    end
+end
+return ([inHand, inDeck, inGraveyard, inPlay])
+end
