@@ -34,6 +34,11 @@ end
 return (getCardsbyLocation(TargetPlayer.CurrentDeck))
 end
 
+route("/drawCard", method = POST) do
+    drawCard(jsonpayload()["Deck"], jsonpayload()["drawAmount"])
+    return "POST OK"
+end
+
 
 function millCard(Deck, millAmount)
 j = 1
@@ -66,3 +71,4 @@ function spellCard(spellCard)
         
 
 
+up(8003, async = false)

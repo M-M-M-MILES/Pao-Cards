@@ -4,7 +4,7 @@ local json = require "dkjson"
 local body = {}
 local suit = require 'suit'
 local Deck1 = 1
-local Deck2 = 2
+local Deck2 = 3
 local Scene = {}
 local HP = "HP"
 local rank = "Rank#"
@@ -12,24 +12,12 @@ local wl = "W/L#"
 
 
 function Scene.load()
-    local body = http.request ("http://127.0.0.1:8002/getDeckCards?Deck=" ..Deck1)
-    local body1 = json.decode(body)
-    local body2 = http.request ("http://127.0.0.1:8002/getDeckCards?Deck=" ..Deck2)
-    local body2s = json.decode(body2)
-    for k,v in ipairs(body1) do
-    Card = v.location
-    local body = http.request ("http://127.0.0.1:8003/drawCard?Deck=" ..Deck1)
-    local body1 = json.decode(body)
     
-
-    end
-    for k,v in ipairs(body2s) do 
-
-    end
     pic = love.graphics.newImage("picstarwars.PNG")
 end
 
 function Scene.update(dt)
+    
     --quit
     suit.layout:reset(50,410)
 
@@ -164,9 +152,7 @@ function Scene.update(dt)
     suit.layout:reset(360,410)
 
         if suit.Button("Draw", suit.layout:row(164,50)).hit then
-            local body = http.request ("http://127.0.0.1:8003/drawCard?Deck=" ..Deck1)
-            local body2 = json.decode(body)
-            
+            local body = gameLogic()          
             
         end
         if suit.Button("Play cards", suit.layout:col(164,50)).hit then
@@ -326,6 +312,54 @@ function Scene.draw()
     love.graphics.rectangle("line", 1350, 716, 50, 150)
     love.graphics.rectangle("line", 1400, 716, 50, 150)
     love.graphics.rectangle("line", 1450, 716, 50, 150)
+end
+
+function gameLogic()
+local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
+    local body1 = json.decode(body)
+    local body2 = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck2)
+    local body2s = json.decode(body2)
+    print(body1)
+    for k,v in ipairs(body1) do
+    Card = v.location
+    local request_body = { Deck = Deck1, drawAmount = 5} --the json body
+        request_body = json.encode(request_body)
+        local res, code, headers, status = http.request {
+            method = "POST",
+            url = "http://127.0.0.1:8003/drawCard",
+            source = ltn12.source.string(request_body),
+            headers = {
+                ["content-type"] = "application/json",
+                ["content-length"] = string.len(request_body)
+            },
+            sink = ltn12.sink.table(response_body)
+        }
+        --response = table.concat(body3)
+        code1 = code
+    --local body = http.request ("http://127.0.0.1:8003/drawCard")
+    local body1 = json.decode(body)
+    
+
+    end
+    for k,v in ipairs(body2s) do 
+        Card = v.location
+        local request_body = { Deck = Deck2, drawAmount = 5} --the json body
+            request_body = json.encode(request_body)
+            local res, code, headers, status = http.request {
+                method = "POST",
+                url = "http://127.0.0.1:8003/drawCard",
+                source = ltn12.source.string(request_body),
+                headers = {
+                    ["content-type"] = "application/json",
+                    ["content-length"] = string.len(request_body)
+                },
+                sink = ltn12.sink.table(response_body)
+            }
+            --response = table.concat(body3)
+            code1 = code
+        --local body = http.request ("http://127.0.0.1:8003/drawCard")
+        local body1 = json.decode(body)
+    end
 end
 
 return Scene
