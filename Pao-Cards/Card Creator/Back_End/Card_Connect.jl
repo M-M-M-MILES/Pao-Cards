@@ -216,6 +216,23 @@ route("/getCard", method = GET) do
      
 end
 
+function getCardId(cardId)
+    try
+        cur = DBInterface.execute(db, "SELECT * FROM Cards WHERE cardId = '$cardId'")
+        df = DataFrame(cur)
+        stringJSON = arraytable(df)
+        return stringJSON
+        catch
+            println("Error returning card")
+     end
+end
+
+route("/getCardId", method = GET) do
+
+    return getCardId(getpayload(:cardId))
+     
+end
+
 
 function deleteCard(cardName)
     try

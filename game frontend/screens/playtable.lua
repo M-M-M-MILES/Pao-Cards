@@ -6,11 +6,7 @@ local suit = require 'suit'
 local Deck1 = 1
 local Deck2 = 3
 local Scene = {}
-local Names1 = {name1 = "",
-                name2 = "",
-                name3 = "",
-                name4 = "",
-                name5 = "",}
+local Names1 = {}
 
 local Names2 = {name1 = "",
                 name2 = "",
@@ -344,11 +340,23 @@ local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
             },
             sink = ltn12.sink.table(response_body)
         }
-        names1.name[k] = v.name
-        --response = table.concat(body3)
-    --local body = http.request ("http://127.0.0.1:8003/drawCard")
+        --print(k)
+        print(v.cardId)
+        local body = http.request ("http://127.0.0.1:8002/getCardId?cardId=" .. v.cardId)
+        local body2test = json.decode(body) --> changes to table
+        for k,v in ipairs(body2test) do
+            name = v.cardName
+            -- effect.text = v.cardEffect
+            -- hpnum = v.cardHealth
+            -- dnum = v.cardAttack
+            -- image = v.cardImage
+            -- rarity.text = v.cardRarity
+            -- class.text = v.CardType
+        end    
+        Names1[k] = name
     end
-    local body1 = json.decode(body)
+    print(Names1[1])
+    
     for k,v in ipairs(body2s) do 
         Card = v.location
         local request_body = { Deck = Deck2, drawAmount = 5} --the json body
@@ -363,9 +371,7 @@ local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
                 },
                 sink = ltn12.sink.table(response_body)
             }
-            --response = table.concat(body3)
-        --local body = http.request ("http://127.0.0.1:8003/drawCard")
-        local body2 = json.decode(body)
+            local body2 = json.decode(body)
     end
 end
 
