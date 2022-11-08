@@ -42,13 +42,7 @@ end
 
 function addToDeck(deckId, cardId)
     try
-        SQLite.execute(db, "INSERT INTO Deck_Cards (deckID) VALUES ('$deckId')")
-        catch
-            println("Error creating relationship")
-    end
-
-    try 
-        SQLite.execute(db, "UPDATE Deck_Cards SET cardId = '$cardId' WHERE deckID = '$deckId'")
+        SQLite.execute(db, "INSERT INTO Deck_Cards VALUES ('$deckId', '$cardId')")
         catch
             println("Unable to add card")
     end
