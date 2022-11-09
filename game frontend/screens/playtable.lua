@@ -4,15 +4,10 @@ local json = require "dkjson"
 local body = {}
 local suit = require 'suit'
 local Deck1 = 1
-local Deck2 = 3
+local Deck2 = 2
 local Scene = {}
-local Names1 = {}
-
-local Names2 = {name1 = "",
-                name2 = "",
-                name3 = "",
-                name4 = "",
-                name5 = "",}
+local Names1 = {"","","","",""}
+local Names2 = {"","","","",""}
 local HP = "HP"
 local rank = "Rank#"
 local wl = "W/L#"
@@ -42,19 +37,19 @@ function Scene.update(dt)
     --Hand
     suit.layout:reset(50,0)
         
-        if suit.Button("", suit.layout:row(50,150)).hit then
+        if suit.Button(Names2[1], suit.layout:row(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[2], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[3], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[4], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[5], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
     --end
@@ -185,19 +180,19 @@ function Scene.update(dt)
     --deck
     suit.layout:reset(1250,715)
 
-        if suit.Button("", suit.layout:row(50,150)).hit then
+        if suit.Button(Names1[1], suit.layout:row(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[2], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[3], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[4], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
-        if suit.Button("", suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[5], suit.layout:col(50,150)).hit then
             SM.load("cardzoom")
         end
     --end
@@ -322,10 +317,10 @@ function Scene.draw()
 end
 
 function gameLogic()
-local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
-    local body1 = json.decode(body)
-    local body2 = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck2)
-    local body2s = json.decode(body2)
+    local player1D = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
+    local body1 = json.decode(player1D)
+    local player2D = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck2)
+    local body2s = json.decode(player2D)
     for k,v in ipairs(body1) do
     Card = v.location
     local request_body = { Deck = Deck1, drawAmount = 5} --the json body
@@ -340,18 +335,10 @@ local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
             },
             sink = ltn12.sink.table(response_body)
         }
-        --print(k)
-        print(v.cardId)
         local body = http.request ("http://127.0.0.1:8002/getCardId?cardId=" .. v.cardId)
-        local body2test = json.decode(body) --> changes to table
-        for j,v in ipairs(body2test) do
+        local body2 = json.decode(body) --> changes to table
+        for j,v in ipairs(body2) do
             name = v.cardName
-            -- effect.text = v.cardEffect
-            -- hpnum = v.cardHealth
-            -- dnum = v.cardAttack
-            -- image = v.cardImage
-            -- rarity.text = v.cardRarity
-            -- class.text = v.CardType
         end    
         Names1[k] = name
     end
@@ -371,8 +358,14 @@ local body = http.request ("http://127.0.0.1:8002/getDeckCards?deckId=" ..Deck1)
                 },
                 sink = ltn12.sink.table(response_body)
             }
+            local body = http.request ("http://127.0.0.1:8002/getCardId?cardId=" .. v.cardId)
             local body2 = json.decode(body)
+            for j,v in ipairs(body2) do
+                name = v.cardName
+            end    
+            Names2[k] = name
     end
+    print(Names2[1])
 end
 
 return Scene

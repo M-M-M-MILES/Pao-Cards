@@ -8,6 +8,7 @@ using Genie.Router, Genie.Renderer, Genie.Renderer.Html, Genie.Renderer.Json, Ge
 include("Models/User.jl")
 include("Models/Card.jl")
 include("database.jl")
+include("Models/CardEffect.jl")
 
 
 

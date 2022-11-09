@@ -67,7 +67,7 @@ function Scene.update(dt)
     end
 
 
-    --left side of screen--
+    --right side of screen--
     suit.layout:reset(520,5)
 
     suit.Label(name.text, {align = "center"}, suit.layout:row(150,50))
