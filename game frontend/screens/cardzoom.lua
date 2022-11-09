@@ -6,6 +6,7 @@ local body = {}
 
 local Scene = {}
 local name = {text = ""}
+local testy
 local hp = {text = ""}
 local hpnum = 0
 local damage = {text = ""}
@@ -15,22 +16,28 @@ local effect = {text = ""}
 local rarity = {text = ""}
 local ctype = {text = ""}
 local image
+local cardN1
+
+function Scene.test(cardName)
+    cardN1 = cardName
+    local body = http.request ("http://127.0.0.1:8002/getCard?cardName=" .. cardN1)
+    local body2 = json.decode(body) --> changes to table
+    print(cardN1)
+   -- print(body2)
+    for k,v in ipairs(body2) do
+        name.text = v.cardName
+        effect.text = v.cardEffect
+        hpnum = v.cardHealth
+        dnum = v.cardAttack
+        image = v.cardImage
+        rarity.text = v.cardRarity
+        class.text = v.CardType
+    end  
+    print(name.text)  
+end
 
 function Scene.load()
     pic = love.graphics.newImage("clonepic.jpg")
-    local body = http.request ("http://127.0.0.1:8002/getCard?cardName=" .. name.text)
-        local body2 = json.decode(body) --> changes to table
-        print(body)
-        print(body2)
-        for k,v in ipairs(body2) do
-            name.text = v.cardName
-            effect.text = v.cardEffect
-            hpnum = v.cardHealth
-            dnum = v.cardAttack
-            image = v.cardImage
-            rarity.text = v.cardRarity
-            class.text = v.CardType
-        end  
 end
 
 function Scene.update()
@@ -42,9 +49,9 @@ function Scene.update()
     
     suit.Label(effect.text, {align = "left"}, suit.layout:row(310, 30))
 
-    suit.layout:reset(515,230)
+    suit.layout:reset(490,230)
 
-    suit.Label(rarity.text .. "/" .. class.text, {align = "center"}, suit.layout:row(150,50))
+    suit.Label(rarity.text .. "/" .. class.text, {align = "center"}, suit.layout:row(220,50))
 
     suit.layout:reset(485,480)
 

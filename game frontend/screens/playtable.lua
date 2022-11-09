@@ -1,6 +1,7 @@
 local http = require("socket.http")
 local ltn12 = require"ltn12"
 local json = require "dkjson"
+local cardzoom = require("screens/cardzoom")
 local body = {}
 local suit = require 'suit'
 local Deck1 = 1
@@ -21,7 +22,7 @@ end
 function Scene.update(dt)
     
     --quit
-    suit.layout:reset(50,410)
+    suit.layout:reset(50,525)
 
         if suit.Button("Quit", suit.layout:row(100,50)).hit then
             love.event.quit(0)
@@ -37,19 +38,24 @@ function Scene.update(dt)
     --Hand
     suit.layout:reset(50,0)
         
-        if suit.Button(Names2[1], suit.layout:row(50,150)).hit then
+        if suit.Button(Names2[1], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names2[1])
             SM.load("cardzoom")
         end
-        if suit.Button(Names2[2], suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[2], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names2[2])
             SM.load("cardzoom")
         end
-        if suit.Button(Names2[3], suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[3], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names2[3])
             SM.load("cardzoom")
         end
-        if suit.Button(Names2[4], suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[4], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names2[4])
             SM.load("cardzoom")
         end
-        if suit.Button(Names2[5], suit.layout:col(50,150)).hit then
+        if suit.Button(Names2[5], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names2[5])
             SM.load("cardzoom")
         end
     --end
@@ -155,7 +161,6 @@ function Scene.update(dt)
 
         if suit.Button("Draw", suit.layout:row(164,50)).hit then
             local body = gameLogic()          
-            
         end
         if suit.Button("Play cards", suit.layout:col(164,50)).hit then
             SM.load("cardzoom")
@@ -177,22 +182,27 @@ function Scene.update(dt)
             SM.load("playerinfo")
         end
 
-    --deck
-    suit.layout:reset(1250,715)
+    --hand
+    suit.layout:reset(1250,364)
 
-        if suit.Button(Names1[1], suit.layout:row(50,150)).hit then
+        if suit.Button(Names1[1], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names1[1])
             SM.load("cardzoom")
         end
-        if suit.Button(Names1[2], suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[2], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names1[2])
             SM.load("cardzoom")
         end
-        if suit.Button(Names1[3], suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[3], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names1[3])
             SM.load("cardzoom")
         end
-        if suit.Button(Names1[4], suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[4], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names1[4])
             SM.load("cardzoom")
         end
-        if suit.Button(Names1[5], suit.layout:col(50,150)).hit then
+        if suit.Button(Names1[5], suit.layout:row(250,100)).hit then
+            cardzoom.test(Names1[5])
             SM.load("cardzoom")
         end
     --end
@@ -296,24 +306,23 @@ end
 
 function Scene.draw()
     suit.draw()
-    --love.graphics.circle("line", 1400, 150, 85)
+
     love.graphics.scale(.3,.3)
     love.graphics.draw(pic,4405,240)
     love.graphics.draw(pic,170,2155)
     love.graphics.reset()
-    --love.graphics.circle("line", 130, 725, 85)
 
-    love.graphics.rectangle("line", 50, 0, 50, 150)
-    love.graphics.rectangle("line", 100, 0, 50, 150)    
-    love.graphics.rectangle("line", 150, 0, 50, 150)
-    love.graphics.rectangle("line", 200, 0, 50, 150)
-    love.graphics.rectangle("line", 250, 0, 50, 150)
+    love.graphics.rectangle("line", 50, 0, 250, 100)
+    love.graphics.rectangle("line", 50, 100, 250, 100)    
+    love.graphics.rectangle("line", 50, 200, 250, 100)
+    love.graphics.rectangle("line", 50, 300, 250, 100)
+    love.graphics.rectangle("line", 50, 400, 250, 100)
 
-    love.graphics.rectangle("line", 1250, 716, 50, 150)
-    love.graphics.rectangle("line", 1300, 716, 50, 150)
-    love.graphics.rectangle("line", 1350, 716, 50, 150)
-    love.graphics.rectangle("line", 1400, 716, 50, 150)
-    love.graphics.rectangle("line", 1450, 716, 50, 150)
+    love.graphics.rectangle("line", 1250, 365, 250, 100)
+    love.graphics.rectangle("line", 1250, 465, 250, 100)
+    love.graphics.rectangle("line", 1250, 565, 250, 100)
+    love.graphics.rectangle("line", 1250, 665, 250, 100)
+    love.graphics.rectangle("line", 1250, 765, 250, 100)
 end
 
 function gameLogic()
